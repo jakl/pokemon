@@ -1,9 +1,15 @@
 
 <!--  SAVE THIS FILE AS .HTML --> 
 <head><style type="text/css"> .bg { color: #00FF00; background: black; } </style></head> 
-<body class='bg' onKeyDown="return key_down(event)" onKeyUp="return key_up(event)"> 
 <canvas id="canvas" tabindex="2"> 
 Out with the stone age ... Use Chrome!  sry w3m </canvas> 
-<script type="text/javascript" src="tiles.js"></script>
+<script type="text/javascript" src="sprites.js"></script>
+<script type="text/javascript" src="character.js"></script>
+<script type="text/javascript" src="zones.js"></script>
 <script type="text/javascript" src="world.js"></script>
 <script type="text/javascript" src="main.js"></script>
+<body class='bg' onKeyDown="return main.key_down(event)" onKeyUp="return main.key_up(event)"> 
+<script type="text/javascript">
+main.init();
+main.tic();
+</script>

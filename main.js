@@ -1,78 +1,69 @@
-var h, w, mousex, mousey;//Screen height and width, and mouse x and y positions
-var g = document.getElementById('canvas').getContext('2d');
+var main = {
+  up:false,down:false,left:false,right:false,space:false,other:false,
 
-init();
-tic();
+  tic:function(){
+    this.paint();
+    //setTimeout("main.tic()", 60);
+  },
+  resize:function(){
+    main.g.canvas.width = window.innerWidth*.95;
+    main.g.canvas.height = window.innerHeight*.95;
+    world.resize_tiles(main.g.canvas.width,main.g.canvas.height);
+    main.paint();
+  },
+  init:function(){
+    this.g = document.getElementById('canvas').getContext('2d');
 
-function tic(){
-  paint();
-  setTimeout("tic()", 600);
-}
+    //document.onmouseup = function(e){}
+    //document.onmousedown = function(e){}
+    document.onmousemove = function(e){
+      world.mouse(e.pageX/main.g.canvas.width,e.pageY/main.g.canvas.height);
+    }
+    document.onmousewheel = function (e){
+      world.zoom(-e.wheelDelta/120);
+      main.resize();
+      main.paint();
+    }
+    window.onresize=this.resize;
 
-window.onresize=resize;
-
-function resize(){
-  h = window.innerHeight*.95;
-  w = window.innerWidth*.95;
-  g.canvas.width = w;
-  g.canvas.height = h;
-}
- 
-function init(){
-  resize();
-  world.init();
-}
- 
-//document.onmouseup = function(e){}
-//document.onmousedown = function(e){}
-document.onmousemove = function(e){
-  mousex = e.pageX/w;
-  mousey = e.pageY/h;
-  world.mouse(mousex,mousey);
-}
-document.onmousewheel = function (e){
-  world.zoom(-e.wheelDelta/120);
-}
-
-function paint(){
-  g.fillStyle = '#000';
-  g.fillRect(0,0,w,h);
-  
-  world.drawWorld();
- 
-  drawControls();
-}
- 
-function drawControls(){
-  g.fillStyle = '#ccc';
-  controlYPos = 40;
-  drawControl("Mouse Wheel - Zoom");
-  drawControl("Mouse Position - Move Pokemon Trainer");
-  drawControl("Mouse Screen Edges - Scroll View of World");
-}
-
-//var controlYPos=40;
-function drawControl(message){
-  g.fillText(message,w/2,controlYPos+=20);
-}
- 
-var up=false,down=false,left=false,right=false,space=false,other=false;
- 
-function key_down(e) {
-    if (e.keyCode == 39) {right=true;}
-    else if (e.keyCode == 37) {left=true;}
-    else if (e.keyCode == 38) {up=true;}
-    else if (e.keyCode == 40) {down=true;}
-    else if (e.keyCode == 32) {space=true;}
-    else {other=true;}
-	return true;//false to capture input and decieve browser
-}
-function key_up(e) {
-    if (e.keyCode == 39) {right=false;}
-    else if (e.keyCode == 37) {left=false;}
-    else if (e.keyCode == 38) {up=false;}
-    else if (e.keyCode == 40) {down=false;}
-    else if (e.keyCode == 32) {space=false;}
-    else {other=false;}
-  return true;//false to capture input and decieve browser
+    this.resize();
+  },
+  paint:function(){
+    this.g.fillStyle = '#000';
+    this.g.fillRect(0,0,this.g.canvas.width,this.g.canvas.height);
+    
+    world.draw(this.g);
+   
+    this.draw_controls();
+  },
+  draw_controls:function(){
+    this.g.fillStyle = '#ccc';
+    this.draw_control_y = 40;
+    this.draw_control("Mouse Wheel - Zoom");
+    this.draw_control("Mouse Position - Move Pokemon Trainer");
+    this.draw_control("Mouse Screen Edges - Scroll View of World");
+  },
+  draw_control:function(message){
+    this.g.fillText(message,this.g.canvas.width/2,this.draw_control_y+=20);
+  },
+  key_down:function(e){
+      if (e.keyCode == 39) {right=true;}
+      else if (e.keyCode == 37) {this.left=true;}
+      else if (e.keyCode == 38) {this.up=true;}
+      else if (e.keyCode == 40) {this.down=true;}
+      else if (e.keyCode == 32) {this.space=true;}
+      else {this.other=true;}
+      this.paint();
+    return true;//false to capture input and decieve browser
+  },
+  key_up:function(e){
+      if (e.keyCode == 39) {this.right=false;}
+      else if (e.keyCode == 37) {this.left=false;}
+      else if (e.keyCode == 38) {this.up=false;}
+      else if (e.keyCode == 40) {this.down=false;}
+      else if (e.keyCode == 32) {this.space=false;}
+      else {this.other=false;}
+      this.paint();
+    return true;//false to capture input and decieve browser
+  },
 }
