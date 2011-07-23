@@ -1,0 +1,20 @@
+http://yuml.me/diagram/scruffy/class/
+[game|state;world;menu;battle],
+[game]->[world|chars;tiles;rand_enctr;interactables|load_tile_file();place_interactable()],
+[game]->[menu|quick_save/load():browser cache;save/load():google docs],
+[world]->[char|pokemon;location;badges;zone|use_item()],
+[char]^-[player|items;pokedex|move()],
+[char]->[pokemon|name;nick;stats;moves;equipment|use_item()],
+[world]->[tile|type;image;is_slippery;can_walk/swim/fly;rand_enctr],
+[tile]->[rand_enctr|location;pokemon|rand_battle()],
+[world]->[interactable|can_walk/fly/swim;width;height;position|bump();stand();interact()],
+
+[pokemon_catalog|pokemon_entry:list],
+[pokemon_catalog]->[pokemon_entry|name;type;evolution;fun_info;catch_rate;level_up_moves;base_stats],
+[moves|move:list],
+[abilities|ability:list],
+[types|type:list|multiplier()],
+
+[pokemon]->[pokemon_entry],
+
+[game]->[battle|phase;conditions;allies:pokemon list;enemies:pokemon list|start();run_phase()],
