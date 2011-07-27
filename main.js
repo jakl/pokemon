@@ -3,7 +3,7 @@ var main = {
 
   tic:function(){
     this.paint();
-    //setTimeout("main.tic()", 60);
+    setTimeout("main.tic()", 100);
   },
   resize:function(){
     main.g.canvas.width = window.innerWidth*.95;

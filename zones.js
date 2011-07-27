@@ -1,9 +1,9 @@
 var zones = {
   get_sprite:function(zone, x, y){
       x = Math.floor(x); y = Math.floor(y);
-      if(x<0 || y<0 || y>=this.overworld.tiles.length || x>=this.overworld.tiles[y].length)
+      if(x<0 || y<0 || y>=zones[zone].tiles.length || x>=zones[zone].tiles[y].length)
         return sprites.blank;
-      var tile = this.overworld.tiles[y].substring(x,x+1);
+      var tile = zones[zone].tiles[y].substring(x,x+1);
       return sprites[this.mapping[tile].name]
   },
   mapping : {
